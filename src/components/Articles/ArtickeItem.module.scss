@@ -1,0 +1,70 @@
+.articleWrapp {
+  padding: 10px;
+  max-width: 941px;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 1);
+  margin-bottom: 22px;
+  border-radius: 5px;
+  .articleDesraption {
+    background-color: rgba(255, 255, 255, 1);
+    padding-left: 5px;
+  }
+}
+
+.articleHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10px;
+
+  padding: 10px 5px;
+  .articleInfo {
+    display: flex;
+    flex-direction: column;
+    max-width: 310px;
+    min-width: 220px;
+    .titleWrap {
+      display: flex;
+      align-items: center;
+      .title {
+        margin-right: 10px;
+      }
+      .img {
+        margin-right: 5px;
+        margin-top: 3px;
+      }
+    }
+    .tagWrap {
+      margin-top: 7px;
+    }
+
+    .tagWrap span {
+      border: 1px solid rgba(0, 0, 0, 0.5);
+      padding: 3px;
+      border-radius: 3px;
+      text-align: center;
+      font-size: 12px;
+    }
+  }
+  .title {
+    color: rgba(24, 144, 255, 1);
+  }
+  .authorInfo {
+    display: flex;
+    .nameData {
+      display: flex;
+      flex-direction: column;
+      margin-right: 10px;
+      .timePost {
+        font-size: 12px;
+        color: gray;
+      }
+    }
+  }
+}
+
+.paginationArticle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}

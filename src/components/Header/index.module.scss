@@ -1,0 +1,26 @@
+$header-color: rgba(255, 255, 255, 1);
+$active-color: rgba(82, 196, 26, 1);
+
+.header {
+  grid-area: h;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $header-color;
+  padding: 10px;
+  font-size: 18px;
+  h4 {
+    line-height: 28px;
+  }
+
+  button {
+    background-color: $header-color;
+    border: 1px solid $active-color;
+    margin-left: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    span {
+      font-size: 18px;
+    }
+  }
+}
