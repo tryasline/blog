@@ -36,7 +36,6 @@ const WrappedArticleItemList = (props: ArtickeItemProps) => {
   }, [slug, dispatch]);
 
   useEffect(() => {
-    debugger;
     dispatch(fetchArticlePage(page));
   }, [page, dispatch]);
 

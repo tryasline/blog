@@ -19,8 +19,12 @@ $active-color: rgba(82, 196, 26, 1);
     margin-left: 5px;
     padding: 10px;
     border-radius: 5px;
+    a {
+      text-decoration: none;
+    }
     span {
       font-size: 18px;
+      color: black;
     }
   }
 }

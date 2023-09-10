@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import WrappedArticleItemList from "../Articles/ContainerArtickeItem";
 import Layout from "../Layout/Layout";
+import Account from "../Account/Account";
 
 import { useAppDispatch, useAppSelector } from "../../hook/redux-hook";
 import { fetchArticle } from "../../store/reducer/article/action-creator";
@@ -40,6 +41,7 @@ const App = () => {
             />
           }
         />
+        <Route path="/sign-up" element={<Account />} />
         <Route path="#" element={<div>Not found</div>} />
       </Route>
     </Routes>
