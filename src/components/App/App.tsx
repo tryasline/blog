@@ -3,10 +3,16 @@ import { Routes, Route } from "react-router-dom";
 
 import WrappedArticleItemList from "../Articles/ContainerArtickeItem";
 import Layout from "../Layout/Layout";
-import Account from "../Account/Account";
+import CreatingAccount from "../CreatingAccount/CreatingAccount";
+import SignInPage from "../SignIn/SignIn";
+import Profile from "../Profile/Profile";
+import CreatingArticle from "../CreatingArticle/CreatingArticle";
 
 import { useAppDispatch, useAppSelector } from "../../hook/redux-hook";
 import { fetchArticle } from "../../store/reducer/article/action-creator";
+import { fetchAuth } from "../../store/reducer/user/action-creator";
+import { GetCookie } from "../../hook/Cookies";
+import OneArticleItem from "../Articles/oneArticle";
 
 const App = () => {
   const disptach = useAppDispatch();
@@ -15,6 +21,12 @@ const App = () => {
   useEffect(() => {
     disptach(fetchArticle());
   }, [disptach]);
+
+  useEffect(() => {
+    if (GetCookie("userToken")) {
+      disptach(fetchAuth());
+    }
+  }, []);
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -31,17 +43,12 @@ const App = () => {
         />
         <Route
           path="/articles/:slug"
-          element={
-            <WrappedArticleItemList
-              articles={article}
-              articlesCount={articlesCount}
-              error={error}
-              isLoading={isLoading}
-              oneArticle={oneArticle}
-            />
-          }
+          element={<OneArticleItem {...oneArticle} />}
         />
-        <Route path="/sign-up" element={<Account />} />
+        <Route path="/sign-up" element={<CreatingAccount />} />
+        <Route path="/sign-in" element={<SignInPage />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/creat-article" element={<CreatingArticle />} />
         <Route path="#" element={<div>Not found</div>} />
       </Route>
     </Routes>

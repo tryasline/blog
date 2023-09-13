@@ -1,8 +1,11 @@
 import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 import classes from "./Account.module.scss";
 import { NavLink } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../hook/redux-hook";
+import { fetchSignUp } from "../../store/reducer/user/action-creator";
 
 interface CreateAccountForm {
   username: string;
@@ -13,6 +16,9 @@ interface CreateAccountForm {
 }
 
 const Account: FC = () => {
+  const dispatch = useAppDispatch();
+  const { isAuth } = useAppSelector((state) => state.userReducer);
+  const navigate = useNavigate();
   const {
     register,
     formState: { errors, isValid },
@@ -22,13 +28,20 @@ const Account: FC = () => {
     mode: "onChange",
   });
   const onSubmit = (data: any) => {
-    console.log(data);
+    const { username, email, password } = data;
+    dispatch(fetchSignUp({ username, email, password }));
+    localStorage.setItem("userData", JSON.stringify(data));
   };
-  //   console.log(errors, isValid, watch("password"), watch("repeatPassword"));
 
   const validatePas = () => {
     return watch("password") === watch("repeatPassword");
   };
+
+  useEffect(() => {
+    if (isAuth) {
+      navigate("/");
+    }
+  }, [isAuth, navigate]);
 
   return (
     <div className={classes.accountWrap}>

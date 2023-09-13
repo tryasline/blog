@@ -4,4 +4,5 @@ export interface User {
   token: string;
   bio: string;
   image: string | null;
+  isAuth?: boolean;
 }

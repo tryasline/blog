@@ -9,6 +9,9 @@ $active-color: rgba(82, 196, 26, 1);
   background-color: $header-color;
   padding: 10px;
   font-size: 18px;
+  a {
+    text-decoration: none;
+  }
   h4 {
     line-height: 28px;
   }
@@ -19,12 +22,31 @@ $active-color: rgba(82, 196, 26, 1);
     margin-left: 5px;
     padding: 10px;
     border-radius: 5px;
-    a {
-      text-decoration: none;
-    }
+    cursor: pointer;
+
     span {
       font-size: 18px;
       color: black;
+    }
+  }
+  .userPlace {
+    display: flex;
+    align-items: center;
+    .creatArticle {
+      margin-right: 15px;
+      color: rgba(82, 196, 26, 1);
+      span {
+        color: rgba(82, 196, 26, 1);
+      }
+    }
+    .username {
+      margin-right: 10px;
+    }
+    .userPhoto {
+      margin-right: 10px;
+    }
+    .logOut {
+      border: 1px solid black;
     }
   }
 }

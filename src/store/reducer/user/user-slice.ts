@@ -8,9 +8,10 @@ const initialState: User = {
   token: "",
   bio: "",
   image: "",
+  isAuth: false,
 };
 
-const userSlice = createSlice({
+export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
@@ -20,6 +21,17 @@ const userSlice = createSlice({
       state.token = action.payload.token;
       state.bio = action.payload.bio;
       state.image = action.payload.image;
+      state.isAuth = true;
+    },
+    logOut(state) {
+      state.username = "";
+      state.email = "";
+      state.token = "";
+      state.bio = "";
+      state.image = "";
+      state.isAuth = false;
     },
   },
 });
+
+export default userSlice.reducer;
