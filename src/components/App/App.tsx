@@ -7,17 +7,20 @@ import CreatingAccount from "../CreatingAccount/CreatingAccount";
 import SignInPage from "../SignIn/SignIn";
 import Profile from "../Profile/Profile";
 import CreatingArticle from "../CreatingArticle/CreatingArticle";
+import UpdateArticle from "../UpdateArticle/UpdateArticle";
 
 import { useAppDispatch, useAppSelector } from "../../hook/redux-hook";
 import { fetchArticle } from "../../store/reducer/article/action-creator";
 import { fetchAuth } from "../../store/reducer/user/action-creator";
 import { GetCookie } from "../../hook/Cookies";
-import OneArticleItem from "../Articles/oneArticle";
+import WrappedOneArticl from "../Articles/ContainerOneArticke";
 
 const App = () => {
   const disptach = useAppDispatch();
   const { article, articlesCount, error, isLoading, oneArticle } =
     useAppSelector((state) => state.articleReducer);
+  const { isAuth } = useAppSelector((state) => state.userReducer);
+  debugger;
   useEffect(() => {
     disptach(fetchArticle());
   }, [disptach]);
@@ -26,7 +29,7 @@ const App = () => {
     if (GetCookie("userToken")) {
       disptach(fetchAuth());
     }
-  }, []);
+  }, [disptach]);
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -38,17 +41,28 @@ const App = () => {
               articlesCount={articlesCount}
               error={error}
               isLoading={isLoading}
+              isAuth={isAuth!}
             />
           }
         />
         <Route
           path="/articles/:slug"
-          element={<OneArticleItem {...oneArticle} />}
+          element={
+            <WrappedOneArticl
+              error={error}
+              oneArticle={oneArticle}
+              isLoading={isLoading}
+            />
+          }
         />
         <Route path="/sign-up" element={<CreatingAccount />} />
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/creat-article" element={<CreatingArticle />} />
+        <Route
+          path="/articles/:slug/edit"
+          element={<UpdateArticle oneArticle={oneArticle} />}
+        />
         <Route path="#" element={<div>Not found</div>} />
       </Route>
     </Routes>

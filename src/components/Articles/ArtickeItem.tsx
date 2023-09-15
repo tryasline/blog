@@ -1,19 +1,30 @@
-import format from "date-fns/format";
-import { NavLink } from "react-router-dom";
+import { useState, useMemo, useCallback } from 'react';
+import { NavLink } from 'react-router-dom';
+import format from 'date-fns/format';
 
-import clasess from "./ArtickeItem.module.scss";
-import logo from "../../assets/images/Rectangle 1.svg";
-import heart from "../../assets/images/heart 1.svg";
+import { fetchLike } from '../../store/reducer/article/action-creator';
+import { GetCookie } from '../../hook/Cookies';
+import { useAppDispatch } from '../../hook/redux-hook';
 
-const ArticleItem = ({
-  title,
-  description,
-  favoritesCount,
-  tagList,
-  author,
-  slug,
-  createdAt,
-}: any) => {
+import clasess from './ArtickeItem.module.scss';
+import logo from '../../assets/images/Rectangle 1.svg';
+import heart from '../../assets/images/heart 1.svg';
+import heartRed from '../../assets/images/heartRed.svg';
+
+const ArticleItem = ({ title, description, favoritesCount, tagList, author, slug, createdAt, isAuth }: any) => {
+  const [like, setLike] = useState(false);
+  const dispatch = useAppDispatch();
+
+  const token = useMemo(() => JSON.parse(GetCookie('userToken')!), []);
+
+  const handelLike = useCallback(
+    (post: string) => {
+      setLike(!like);
+      // dispatch(fetchLike(post, !like, `${token}`));
+    },
+    [dispatch, like, token]
+  );
+
   if (!slug) return <h1>Not Found</h1>;
   let unikKey = 100;
   return (
@@ -24,17 +35,27 @@ const ArticleItem = ({
             <span className={clasess.title}>
               <NavLink to={`/articles/${slug}`}>{title}</NavLink>
             </span>
-            <span className={clasess.img}>
-              <img src={heart} alt="heart" />
-            </span>
+            <button onClick={() => handelLike(slug)} disabled={!isAuth}>
+              {like && <img src={heartRed} alt="heartRed" />}
+              {!like && <img src={heart} alt="heart" />}
+            </button>
             <span>{favoritesCount}</span>
           </div>
           <div className={clasess.tagWrap}>
             {tagList.length > 0
               ? tagList.map((tag: string, i: number) => {
                   if (tag === null && i < 4)
-                    return <span key={unikKey++}>#</span>;
-                  else if (i < 4) return <span key={unikKey++}>{tag}</span>;
+                    return (
+                      <span key={unikKey++} className={clasess.oneTag}>
+                        #
+                      </span>
+                    );
+                  else if (i < 4)
+                    return (
+                      <span key={unikKey++} className={clasess.oneTag}>
+                        {tag}
+                      </span>
+                    );
                 })
               : null}
           </div>
@@ -42,9 +63,7 @@ const ArticleItem = ({
         <div className={clasess.authorInfo}>
           <div className={clasess.nameData}>
             <span>{author.username}</span>
-            <span className={clasess.timePost}>
-              {format(new Date(createdAt), "MMMM d,y")}
-            </span>
+            <span className={clasess.timePost}>{format(new Date(createdAt), 'MMMM d,y')}</span>
           </div>
           <div className={clasess.img}>
             <img src={logo} alt="#" />

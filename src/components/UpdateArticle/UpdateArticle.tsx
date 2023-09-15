@@ -1,11 +1,17 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 
-import { fetchCreatingArticle } from "../../store/reducer/article/action-creator";
 import { useAppDispatch } from "../../hook/redux-hook";
 import { GetCookie } from "../../hook/Cookies";
 
-import classes from "./CreatingArticle.module.scss";
+import classes from "./UpdateArticle.module.scss";
+import { Article } from "../../types/article-type";
+import { useParams } from "react-router-dom";
+
+import {
+  fetchOneArticle,
+  fetchUpdateArticle,
+} from "../../store/reducer/article/action-creator";
 
 type newArticleType = {
   title: string;
@@ -13,24 +19,53 @@ type newArticleType = {
   text: string;
 };
 
-const CreatingArticle: FC = () => {
+type UpdateArticleProps = { oneArticle: Article };
+
+const UpdateArticle: FC<UpdateArticleProps> = (props) => {
   const [tags, setTags] = useState<string[]>([]);
   const [tag, setTag] = useState("");
+
+  // const [title, setTitle] = useState("");
+  // const [description, setDescription] = useState("");
+  // const [body, setBody] = useState("");
+
   const dispatch = useAppDispatch();
+  const { slug } = useParams();
+
+  const infoArticle = useMemo(() => props.oneArticle, [props.oneArticle]);
+
+  debugger;
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<newArticleType>({
     mode: "onBlur",
   });
 
+  useEffect(() => {
+    if (slug) {
+      dispatch(fetchOneArticle(slug));
+    }
+  }, [slug, dispatch]);
+
+  useEffect(() => {
+    if (props.oneArticle.slug) {
+      setValue("title", props.oneArticle.title);
+      setValue("text", props.oneArticle.body);
+      setValue("description", props.oneArticle.description);
+      setTags((state) => [...state, ...props.oneArticle.tagList]);
+    }
+  }, [infoArticle]);
+
   const onSubmit = (data: any) => {
-    console.log(tags);
     const { title, description, text: body } = data;
+    console.log(data, slug);
     dispatch(
-      fetchCreatingArticle(
+      fetchUpdateArticle(
         { title, description, body, tagList: tags },
+        slug!,
         JSON.parse(GetCookie("userToken")!)
       )
     );
@@ -52,7 +87,7 @@ const CreatingArticle: FC = () => {
 
   return (
     <div className={classes.newArticleWrap}>
-      <h2>Create new article</h2>
+      <h2>Edit article</h2>
       <form
         className={classes.formNewArticle}
         onSubmit={handleSubmit(onSubmit)}
@@ -137,4 +172,4 @@ const CreatingArticle: FC = () => {
   );
 };
 
-export default CreatingArticle;
+export default UpdateArticle;

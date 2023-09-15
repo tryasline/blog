@@ -5,36 +5,29 @@ import ReactMarkdown from "react-markdown";
 import clasess from "./ArtickeItem.module.scss";
 import logo from "../../assets/images/Rectangle 1.svg";
 import heart from "../../assets/images/heart 1.svg";
+import PopoverModal from "../Popover/Popover";
 
-const OneArticleItem = ({
-  slug,
-  title,
-  description,
-  body,
-  tags: tagList,
-  createdAt,
-  favorited,
-  favoritesCount,
-  author,
-}: any) => {
-  if (!slug) return <h1>Not Found</h1>;
+const OneArticleItem = (props: any) => {
   let unikKey = 100;
+  if (!props.oneArticle.slug) return <h2>Waiting...</h2>;
   return (
     <div className={clasess.articleWrapp}>
       <div className={clasess.articleHeader}>
         <div className={clasess.articleInfo}>
           <div className={clasess.titleWrap}>
             <span className={clasess.title}>
-              <NavLink to={`/articles/${slug}`}>{title}</NavLink>
+              <NavLink to={`/articles/${props.oneArticle.slug}`}>
+                {props.oneArticle.title}
+              </NavLink>
             </span>
             <span className={clasess.img}>
               <img src={heart} alt="heart" />
             </span>
-            <span>{favoritesCount}</span>
+            <span>{props.oneArticle.favoritesCount}</span>
           </div>
           <div className={clasess.tagWrap}>
-            {tagList.length > 0
-              ? tagList.map((tag: string, i: number) => {
+            {props.oneArticle.tagList.length > 0
+              ? props.oneArticle.tagList.map((tag: string, i: number) => {
                   if (tag === null && i < 4)
                     return <span key={unikKey++}>#</span>;
                   else if (i < 4) return <span key={unikKey++}>{tag}</span>;
@@ -42,23 +35,39 @@ const OneArticleItem = ({
               : null}
           </div>
         </div>
-        <div className={clasess.authorInfo}>
-          <div className={clasess.nameData}>
-            <span>{author.username}</span>
-            <span className={clasess.timePost}>
-              {format(new Date(createdAt), "MMMM d,y")}
-            </span>
+        <div className={clasess.authorInfoOne}>
+          <div className={clasess.author}>
+            <div className={clasess.nameData}>
+              <span>{props.oneArticle.author.username}</span>
+              <span className={clasess.timePost}>
+                {format(new Date(props.oneArticle.createdAt), "MMMM d,y")}
+              </span>
+            </div>
+            <div className={clasess.img}>
+              <img src={logo} alt="#" />
+            </div>
           </div>
-          <div className={clasess.img}>
-            <img src={logo} alt="#" />
+          <div className={clasess.actionBtn}>
+            {/* <button
+              className={clasess.btnDelete}
+              onClick={() => console.log("delete")}
+            >
+              Delete
+            </button> */}
+            <PopoverModal />
+            <button className={clasess.btnEdit}>
+              <NavLink to={`/articles/${props.oneArticle.slug}/edit`}>
+                Edit
+              </NavLink>
+            </button>
           </div>
         </div>
       </div>
       <div className={clasess.articleDesraption}>
-        <p className={clasess.description}>{description}</p>
+        <p className={clasess.description}>{props.oneArticle.description}</p>
       </div>
       <div className={clasess.body}>
-        <ReactMarkdown>{body}</ReactMarkdown>
+        <ReactMarkdown>{props.oneArticle.body}</ReactMarkdown>
       </div>
     </div>
   );

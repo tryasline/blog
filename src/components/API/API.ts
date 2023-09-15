@@ -37,6 +37,40 @@ export const articlesApi = {
   getOneArticles: (slug: string) => {
     return instanse.get<any>(`articles/${slug}`);
   },
+  deleteArticle: (slug: string, token: string) => {
+    return instanse.delete<any>(`articles/${slug}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  },
+  creatingArtile(article: any, token: string) {
+    return instanse.post(
+      "articles ",
+      { article },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+  },
+  updateArtile(article: any, slug: string, token: string) {
+    return instanse.put(
+      `articles/${slug}`,
+      { article },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+  },
+  likeArticle: (slug: string, token: string) => {
+    return instanse.post(`articles/${slug}/favorite`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  },
+
+  deslikeArticle: (slug: string, token: string) => {
+    return instanse.delete(`articles/${slug}/favorite`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  },
 };
 
 export const actionAccount = {

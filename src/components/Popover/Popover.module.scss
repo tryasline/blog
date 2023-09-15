@@ -1,0 +1,46 @@
+.modalContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+  .modalContent {
+    display: flex;
+    p {
+      position: relative;
+      top: -15px;
+      left: -5px;
+    }
+    img {
+      margin-right: 15px;
+      margin-left: 5px;
+      position: relative;
+      top: -24px;
+      left: -5px;
+    }
+  }
+  .btn {
+    align-self: flex-end;
+    .btnNo {
+      width: 34px;
+      height: 24px;
+      border-radius: 4px;
+      background-color: white;
+      border: 1px solid rgba(217, 217, 217, 1);
+    }
+    .btnYes {
+      width: 34px;
+      height: 24px;
+      margin-left: 5px;
+      border-radius: 4px;
+      background-color: rgba(24, 144, 255, 1);
+      border: none;
+      color: white;
+    }
+  }
+}
+
+.btnDelete {
+  border-radius: 5px;
+  color: red;
+  border: 1px solid red;
+  font-size: 14px;
+}

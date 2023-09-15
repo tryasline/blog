@@ -10,7 +10,7 @@ export interface Article {
   title: string;
   description: string;
   body: string;
-  tags: Array<string>;
+  tagList: Array<string>;
   createdAt: string;
   updatedAt: string;
   favorited: boolean;

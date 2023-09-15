@@ -18,7 +18,7 @@ const initialState: ArticleState = {
     title: "",
     description: "",
     body: "",
-    tags: [],
+    tagList: [],
     createdAt: "",
     updatedAt: "",
     favorited: false,

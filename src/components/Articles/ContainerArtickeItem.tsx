@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 
 import { Pagination } from "antd";
 
@@ -8,10 +7,7 @@ import ArticleItem from "./ArtickeItem";
 import classes from "./ArtickeItem.module.scss";
 import { useAppDispatch } from "../../hook/redux-hook";
 
-import {
-  fetchArticlePage,
-  fetchOneArticle,
-} from "../../store/reducer/article/action-creator";
+import { fetchArticlePage } from "../../store/reducer/article/action-creator";
 
 interface ArtickeItemProps {
   articles: Article[];
@@ -19,6 +15,7 @@ interface ArtickeItemProps {
   articlesCount: number;
   error: string;
   isLoading: boolean;
+  isAuth: boolean;
 }
 
 const WrappedArticleItemList = (props: ArtickeItemProps) => {
@@ -27,13 +24,6 @@ const WrappedArticleItemList = (props: ArtickeItemProps) => {
   const [page, setPage] = useState(1);
 
   const dispatch = useAppDispatch();
-  const { slug } = useParams();
-
-  useEffect(() => {
-    if (slug) {
-      dispatch(fetchOneArticle(slug!));
-    }
-  }, [slug, dispatch]);
 
   useEffect(() => {
     dispatch(fetchArticlePage(page));
@@ -46,13 +36,13 @@ const WrappedArticleItemList = (props: ArtickeItemProps) => {
   if (error) return <div>{error}</div>;
   if (isLoading) return <h1>Идёт загрузка...</h1>;
 
-  if (!slug) {
+  if (props.articles.length) {
     const countPage = Math.ceil((props.articlesCount / 5) * 10);
     return (
       <>
         {props.articles!.map((articl) => (
           <div className="container" key={articl.slug}>
-            <ArticleItem {...articl} />
+            <ArticleItem {...articl} isAuth={props.isAuth} />
           </div>
         ))}
         <div className={classes.paginationArticle}>
@@ -64,8 +54,7 @@ const WrappedArticleItemList = (props: ArtickeItemProps) => {
         </div>
       </>
     );
-  } else if (slug) return <ArticleItem {...props.oneArticle!} />;
-  else return <div>Hello</div>;
+  } else return <div>Hello</div>;
 };
 
 export default WrappedArticleItemList;
