@@ -30,7 +30,7 @@
   "plugins": ["react", "prettier", "import"],
   "rules": {
     "class-methods-use-this": "off",
-    "prettier/prettier": ["error", { "endOfLine": "lf", "singleQuote": true, "parser": "flow" }],
+    // "prettier/prettier": ["error", { "endOfLine": "lf", "singleQuote": true, "parser": "flow" }],
     "linebreak-style": [0, "unix"],
     "quotes": ["error", "single"],
     "semi": "off",
