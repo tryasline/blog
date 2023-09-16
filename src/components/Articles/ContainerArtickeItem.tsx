@@ -32,14 +32,14 @@ function WrappedArticleItemList(props: ArtickeItemProps) {
     setPage((state) => (state = page));
   };
 
-  if (error) return <div>{error}</div>;
   if (isLoading) return <h1>Идёт загрузка...</h1>;
+  if (error) return <div>{error}</div>;
 
   if (props.articles.length) {
     const countPage = Math.ceil((props.articlesCount / 5) * 10);
     return (
       <>
-        {props.articles!.map((articl) => (
+        {props.articles?.map((articl) => (
           <div className="container" key={articl.slug}>
             <ArticleItem {...articl} isAuth={props.isAuth} />
           </div>
@@ -50,7 +50,7 @@ function WrappedArticleItemList(props: ArtickeItemProps) {
       </>
     );
   }
-  return <div>Hello</div>;
+  return <h1>Error!</h1>;
 }
 
 export default WrappedArticleItemList;

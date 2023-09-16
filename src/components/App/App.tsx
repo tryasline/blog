@@ -44,7 +44,7 @@ function App() {
         />
         <Route
           path="/articles/:slug"
-          element={<WrappedOneArticl error={error} oneArticle={oneArticle} isLoading={isLoading} />}
+          element={<WrappedOneArticl error={error} oneArticle={oneArticle} isLoading={isLoading} isAuth={isAuth!} />}
         />
         <Route path="/sign-up" element={<CreatingAccount />} />
         <Route path="/sign-in" element={<SignInPage />} />

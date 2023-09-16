@@ -11,9 +11,10 @@ interface ArtickeItemProps {
   oneArticle: Article;
   error: string;
   isLoading: boolean;
+  isAuth: boolean;
 }
 
-function WrappedOneArticl({ oneArticle, error, isLoading }: ArtickeItemProps) {
+function WrappedOneArticl({ oneArticle, error, isLoading, isAuth }: ArtickeItemProps) {
   const dispatch = useAppDispatch();
   const { slug } = useParams();
 
@@ -24,7 +25,7 @@ function WrappedOneArticl({ oneArticle, error, isLoading }: ArtickeItemProps) {
   if (isLoading) return <h1>Идёт загрузка...</h1>;
   if (error) return <div>{error}</div>;
   if (oneArticle) {
-    return <OneArticleItem oneArticle={oneArticle} />;
+    return <OneArticleItem oneArticle={oneArticle} isAuth={isAuth} />;
   }
   return <h1>Hello</h1>;
 }

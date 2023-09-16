@@ -21,5 +21,5 @@ export interface Article {
 export default interface ArticleRequest {
   articles: Article[];
   articlesCount: number;
-  oneArticle?: {};
+  oneArticle?: object;
 }

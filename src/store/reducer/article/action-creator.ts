@@ -16,9 +16,11 @@ export const fetchLike = (slug: string, like: boolean, token: string) => async (
   try {
     if (like) {
       const res = await articlesApi.likeArticle(slug, token);
+      disptach(articleSlice.actions.articleLike(slug));
     }
     if (!like) {
       const res = await articlesApi.deslikeArticle(slug, token);
+      disptach(articleSlice.actions.articleDesLike(slug));
     }
   } catch (e: any) {
     disptach(articleSlice.actions.articleFetchingError(e.message));

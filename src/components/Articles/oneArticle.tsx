@@ -4,11 +4,28 @@ import ReactMarkdown from 'react-markdown';
 
 import logo from '../../assets/images/Rectangle 1.svg';
 import heart from '../../assets/images/heart 1.svg';
+import redheart from '../../assets/images/heartRed.svg';
 import PopoverModal from '../Popover/Popover';
 
 import clasess from './ArtickeItem.module.scss';
+import { useCallback, useState } from 'react';
+import { useAppDispatch } from '../../hook/redux-hook';
+import { GetCookie } from '../../hook/Cookies';
+import { fetchLike } from '../../store/reducer/article/action-creator';
 
 function OneArticleItem(props: any) {
+  const [like, setLike] = useState(false);
+  const dispatch = useAppDispatch();
+  const getUserToken = useCallback(() => JSON.parse(GetCookie('userToken')!), []);
+
+  const handelLike = useCallback(
+    (post: string) => {
+      console.log('tog');
+      setLike(!like);
+      dispatch(fetchLike(post, !like, `${getUserToken()}`));
+    },
+    [dispatch, like]
+  );
   let unikKey = 100;
   if (!props.oneArticle.slug) return <h2>Waiting...</h2>;
   return (
@@ -19,9 +36,10 @@ function OneArticleItem(props: any) {
             <span className={clasess.title}>
               <NavLink to={`/articles/${props.oneArticle.slug}`}>{props.oneArticle.title}</NavLink>
             </span>
-            <span className={clasess.img}>
-              <img src={heart} alt="heart" />
-            </span>
+            <button onClick={() => handelLike(props.oneArticle.slug)} disabled={!props.isAuth} type="button">
+              {like && <img src={redheart} alt="heartRed" />}
+              {!like && <img src={heart} alt="heart" />}
+            </button>
             <span>{props.oneArticle.favoritesCount}</span>
           </div>
           <div className={clasess.tagWrap}>

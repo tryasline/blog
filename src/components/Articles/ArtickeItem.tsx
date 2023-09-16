@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import format from 'date-fns/format';
 
@@ -14,15 +14,14 @@ import clasess from './ArtickeItem.module.scss';
 function ArticleItem({ title, description, favoritesCount, tagList, author, slug, createdAt, isAuth, favorited }: any) {
   const [like, setLike] = useState(false);
   const dispatch = useAppDispatch();
-
-  const token = useMemo(() => JSON.parse(GetCookie('userToken')!), []);
+  const getUserToken = useCallback(() => JSON.parse(GetCookie('userToken')!), []);
 
   const handelLike = useCallback(
     (post: string) => {
       setLike(!like);
-      dispatch(fetchLike(post, !like, `${token}`));
+      dispatch(fetchLike(post, !like, `${getUserToken()}`));
     },
-    [dispatch, like, token]
+    [dispatch, like]
   );
 
   if (!slug) return <h1>Not Found</h1>;
@@ -36,8 +35,8 @@ function ArticleItem({ title, description, favoritesCount, tagList, author, slug
               <NavLink to={`/articles/${slug}`}>{title}</NavLink>
             </span>
             <button onClick={() => handelLike(slug)} disabled={!isAuth} type="button">
-              {like && <img src={heartRed} alt="heartRed" />}
-              {!like && <img src={heart} alt="heart" />}
+              {favorited && <img src={heartRed} alt="heartRed" />}
+              {!favorited && <img src={heart} alt="heart" />}
             </button>
             <span>{favoritesCount}</span>
           </div>

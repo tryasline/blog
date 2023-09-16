@@ -60,6 +60,27 @@ export const articleSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
+
+    articleLike(state, action: PayloadAction<string>) {
+      state.isLoading = false;
+      state.error = '';
+      state.article = state.article.map((art) => {
+        if (art.slug === action.payload) {
+          art.favorited = true;
+          return art;
+        } else return art;
+      });
+    },
+    articleDesLike(state, action: PayloadAction<string>) {
+      state.isLoading = false;
+      state.error = '';
+      state.article = state.article.map((art) => {
+        if (art.slug === action.payload) {
+          art.favorited = false;
+          return art;
+        } else return art;
+      });
+    },
   },
 });
 
