@@ -1,9 +1,9 @@
-import { Outlet } from "react-router-dom";
-import Header from "../Header";
+import { Outlet } from 'react-router-dom';
 
-import s from "../App/App.module.scss";
+import Header from '../Header';
+import s from '../App/App.module.scss';
 
-const Layout = () => {
+function Layout() {
   return (
     <div className={s.appWrapper}>
       <Header />
@@ -12,6 +12,6 @@ const Layout = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Layout;

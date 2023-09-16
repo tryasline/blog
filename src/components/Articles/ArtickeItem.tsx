@@ -5,13 +5,13 @@ import format from 'date-fns/format';
 import { fetchLike } from '../../store/reducer/article/action-creator';
 import { GetCookie } from '../../hook/Cookies';
 import { useAppDispatch } from '../../hook/redux-hook';
-
-import clasess from './ArtickeItem.module.scss';
 import logo from '../../assets/images/Rectangle 1.svg';
 import heart from '../../assets/images/heart 1.svg';
 import heartRed from '../../assets/images/heartRed.svg';
 
-const ArticleItem = ({ title, description, favoritesCount, tagList, author, slug, createdAt, isAuth }: any) => {
+import clasess from './ArtickeItem.module.scss';
+
+function ArticleItem({ title, description, favoritesCount, tagList, author, slug, createdAt, isAuth, favorited }: any) {
   const [like, setLike] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -20,7 +20,7 @@ const ArticleItem = ({ title, description, favoritesCount, tagList, author, slug
   const handelLike = useCallback(
     (post: string) => {
       setLike(!like);
-      // dispatch(fetchLike(post, !like, `${token}`));
+      dispatch(fetchLike(post, !like, `${token}`));
     },
     [dispatch, like, token]
   );
@@ -35,7 +35,7 @@ const ArticleItem = ({ title, description, favoritesCount, tagList, author, slug
             <span className={clasess.title}>
               <NavLink to={`/articles/${slug}`}>{title}</NavLink>
             </span>
-            <button onClick={() => handelLike(slug)} disabled={!isAuth}>
+            <button onClick={() => handelLike(slug)} disabled={!isAuth} type="button">
               {like && <img src={heartRed} alt="heartRed" />}
               {!like && <img src={heart} alt="heart" />}
             </button>
@@ -50,7 +50,7 @@ const ArticleItem = ({ title, description, favoritesCount, tagList, author, slug
                         #
                       </span>
                     );
-                  else if (i < 4)
+                  if (i < 4)
                     return (
                       <span key={unikKey++} className={clasess.oneTag}>
                         {tag}
@@ -75,6 +75,6 @@ const ArticleItem = ({ title, description, favoritesCount, tagList, author, slug
       </div>
     </div>
   );
-};
+}
 
 export default ArticleItem;

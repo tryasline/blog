@@ -1,13 +1,14 @@
-import format from "date-fns/format";
-import { NavLink } from "react-router-dom";
-import ReactMarkdown from "react-markdown";
+import format from 'date-fns/format';
+import { NavLink } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 
-import clasess from "./ArtickeItem.module.scss";
-import logo from "../../assets/images/Rectangle 1.svg";
-import heart from "../../assets/images/heart 1.svg";
-import PopoverModal from "../Popover/Popover";
+import logo from '../../assets/images/Rectangle 1.svg';
+import heart from '../../assets/images/heart 1.svg';
+import PopoverModal from '../Popover/Popover';
 
-const OneArticleItem = (props: any) => {
+import clasess from './ArtickeItem.module.scss';
+
+function OneArticleItem(props: any) {
   let unikKey = 100;
   if (!props.oneArticle.slug) return <h2>Waiting...</h2>;
   return (
@@ -16,9 +17,7 @@ const OneArticleItem = (props: any) => {
         <div className={clasess.articleInfo}>
           <div className={clasess.titleWrap}>
             <span className={clasess.title}>
-              <NavLink to={`/articles/${props.oneArticle.slug}`}>
-                {props.oneArticle.title}
-              </NavLink>
+              <NavLink to={`/articles/${props.oneArticle.slug}`}>{props.oneArticle.title}</NavLink>
             </span>
             <span className={clasess.img}>
               <img src={heart} alt="heart" />
@@ -28,9 +27,8 @@ const OneArticleItem = (props: any) => {
           <div className={clasess.tagWrap}>
             {props.oneArticle.tagList.length > 0
               ? props.oneArticle.tagList.map((tag: string, i: number) => {
-                  if (tag === null && i < 4)
-                    return <span key={unikKey++}>#</span>;
-                  else if (i < 4) return <span key={unikKey++}>{tag}</span>;
+                  if (tag === null && i < 4) return <span key={unikKey++}>#</span>;
+                  if (i < 4) return <span key={unikKey++}>{tag}</span>;
                 })
               : null}
           </div>
@@ -39,26 +37,16 @@ const OneArticleItem = (props: any) => {
           <div className={clasess.author}>
             <div className={clasess.nameData}>
               <span>{props.oneArticle.author.username}</span>
-              <span className={clasess.timePost}>
-                {format(new Date(props.oneArticle.createdAt), "MMMM d,y")}
-              </span>
+              <span className={clasess.timePost}>{format(new Date(props.oneArticle.createdAt), 'MMMM d,y')}</span>
             </div>
             <div className={clasess.img}>
               <img src={logo} alt="#" />
             </div>
           </div>
           <div className={clasess.actionBtn}>
-            {/* <button
-              className={clasess.btnDelete}
-              onClick={() => console.log("delete")}
-            >
-              Delete
-            </button> */}
             <PopoverModal />
-            <button className={clasess.btnEdit}>
-              <NavLink to={`/articles/${props.oneArticle.slug}/edit`}>
-                Edit
-              </NavLink>
+            <button className={clasess.btnEdit} type="button">
+              <NavLink to={`/articles/${props.oneArticle.slug}/edit`}>Edit</NavLink>
             </button>
           </div>
         </div>
@@ -71,6 +59,6 @@ const OneArticleItem = (props: any) => {
       </div>
     </div>
   );
-};
+}
 
 export default OneArticleItem;

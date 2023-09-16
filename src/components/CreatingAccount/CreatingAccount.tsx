@@ -1,11 +1,11 @@
-import { FC, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { FC, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate, NavLink } from 'react-router-dom';
 
-import classes from "./Account.module.scss";
-import { NavLink } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../hook/redux-hook";
-import { fetchSignUp } from "../../store/reducer/user/action-creator";
+import { useAppDispatch, useAppSelector } from '../../hook/redux-hook';
+import { fetchSignUp } from '../../store/reducer/user/action-creator';
+
+import classes from './Account.module.scss';
 
 interface CreateAccountForm {
   username: string;
@@ -25,21 +25,19 @@ const Account: FC = () => {
     handleSubmit,
     watch,
   } = useForm<CreateAccountForm>({
-    mode: "onChange",
+    mode: 'onChange',
   });
   const onSubmit = (data: any) => {
     const { username, email, password } = data;
     dispatch(fetchSignUp({ username, email, password }));
-    localStorage.setItem("userData", JSON.stringify(data));
+    localStorage.setItem('userData', JSON.stringify(data));
   };
 
-  const validatePas = () => {
-    return watch("password") === watch("repeatPassword");
-  };
+  const validatePas = () => watch('password') === watch('repeatPassword');
 
   useEffect(() => {
     if (isAuth) {
-      navigate("/");
+      navigate('/');
     }
   }, [isAuth, navigate]);
 
@@ -51,38 +49,34 @@ const Account: FC = () => {
           <span>Username</span>
           <input
             placeholder="Username"
-            {...register("username", {
-              required: "Обязательное поле",
+            {...register('username', {
+              required: 'Обязательное поле',
               minLength: {
                 value: 3,
-                message: "Минимальная длина имени 3 символа",
+                message: 'Минимальная длина имени 3 символа',
               },
               maxLength: {
                 value: 20,
-                message: "Максимальная длина имени 20 символов",
+                message: 'Максимальная длина имени 20 символов',
               },
             })}
-          ></input>
-          <div className={classes.errorName}>
-            {errors?.username && <p>{errors.username.message || "Error"}</p>}
-          </div>
+          />
+          <div className={classes.errorName}>{errors?.username && <p>{errors.username.message || 'Error'}</p>}</div>
         </label>
 
         <label className={classes.inputWrap}>
           <span>Email address</span>
           <input
             placeholder="Email address"
-            {...register("email", {
-              required: "Обязательное поле",
+            {...register('email', {
+              required: 'Обязательное поле',
               pattern: {
                 value: /([a-z\d]+)@([gmail-mail-yandex]+)\.([com-ru]+)/,
-                message: "Email должен начинаться с нижнего регистра",
+                message: 'Email должен начинаться с нижнего регистра',
               },
             })}
-          ></input>
-          <div className={classes.errorName}>
-            {errors?.email && <p>{errors.email.message || "Error"}</p>}
-          </div>
+          />
+          <div className={classes.errorName}>{errors?.email && <p>{errors.email.message || 'Error'}</p>}</div>
         </label>
 
         <label className={classes.inputWrap}>
@@ -90,21 +84,19 @@ const Account: FC = () => {
           <input
             type="password"
             placeholder="Password"
-            {...register("password", {
-              required: "Обязательное поле",
+            {...register('password', {
+              required: 'Обязательное поле',
               minLength: {
                 value: 6,
-                message: "Минимальная длина пароля 6 символа",
+                message: 'Минимальная длина пароля 6 символа',
               },
               maxLength: {
                 value: 40,
-                message: "Максимальная длина пароля 40 символов",
+                message: 'Максимальная длина пароля 40 символов',
               },
             })}
-          ></input>
-          <div className={classes.errorName}>
-            {errors?.password && <p>{errors.password.message || "Error"}</p>}
-          </div>
+          />
+          <div className={classes.errorName}>{errors?.password && <p>{errors.password.message || 'Error'}</p>}</div>
         </label>
 
         <label className={classes.inputWrap}>
@@ -112,41 +104,30 @@ const Account: FC = () => {
           <input
             type="password"
             placeholder="Repeat Password"
-            {...register("repeatPassword", {
+            {...register('repeatPassword', {
               required: true,
               validate: validatePas,
             })}
-          ></input>
-          <div className={classes.errorName}>
-            {errors?.repeatPassword && <p>{"Пароли дожны совпадать"}</p>}
-          </div>
+          />
+          <div className={classes.errorName}>{errors?.repeatPassword && <p>Пароли дожны совпадать</p>}</div>
         </label>
 
         <label className={`${classes.inputWrap} ${classes.checkBox}`}>
           <span>I agree to the processing of my personal information</span>
-          <input
-            type="checkbox"
-            {...register("agree", { required: true })}
-          ></input>
-          <div className={classes.errorName}>
-            {errors?.agree && <p>{"Обязательное поле"}</p>}
-          </div>
+          <input type="checkbox" {...register('agree', { required: true })} />
+          <div className={classes.errorName}>{errors?.agree && <p>Обязательное поле</p>}</div>
         </label>
 
-        <button className={classes.buttonSubmit} disabled={!isValid}>
+        <button className={classes.buttonSubmit} disabled={!isValid} type="submit">
           Create
         </button>
 
         <div className={classes.redirectLogin}>
           <span>Already have an account?</span>
           <NavLink
-            to={"/sign-in"}
+            to="/sign-in"
             className={({ isActive, isPending }) =>
-              isPending
-                ? `${classes.pending}`
-                : isActive
-                ? `${classes.active}`
-                : ""
+              isPending ? `${classes.pending}` : isActive ? `${classes.active}` : ''
             }
           >
             <span>Sign In.</span>

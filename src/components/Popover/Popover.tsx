@@ -1,15 +1,13 @@
-import { useState, FC } from "react";
-import { useParams, Navigate, useNavigate } from "react-router-dom";
-import { Button, Popover } from "antd";
+import { useState, FC } from 'react';
+import { useParams, Navigate, useNavigate } from 'react-router-dom';
+import { Button, Popover } from 'antd';
 
-import { useAppDispatch } from "../../hook/redux-hook";
-import { GetCookie } from "../../hook/Cookies";
+import { useAppDispatch } from '../../hook/redux-hook';
+import { GetCookie } from '../../hook/Cookies';
+import { fetchDeleteArticle } from '../../store/reducer/article/action-creator';
+import warning from '../../assets/images/warning.svg';
 
-import { fetchDeleteArticle } from "../../store/reducer/article/action-creator";
-
-import warning from "../../assets/images/warning.svg";
-
-import classes from "./Popover.module.scss";
+import classes from './Popover.module.scss';
 
 const PopoverModal: FC = () => {
   const [open, setOpen] = useState(false);
@@ -26,35 +24,28 @@ const PopoverModal: FC = () => {
 
   const handleFetchDeletArticle = () => {
     console.log(slug);
-    dispatch(fetchDeleteArticle(slug!, JSON.parse(GetCookie("userToken")!)));
-    navigate("/");
+    dispatch(fetchDeleteArticle(slug!, JSON.parse(GetCookie('userToken')!)));
+    navigate('/');
   };
 
   const content = (
     <div className={classes.modalContainer}>
       <div className={classes.modalContent}>
         <img src={warning} alt="warning" />
-        <p className={classes.modalText}>
-          Are you sure to delete this article?
-        </p>
+        <p className={classes.modalText}>Are you sure to delete this article?</p>
       </div>
       <div className={classes.btn}>
-        <button className={classes.btnNo} onClick={hide}>
+        <button className={classes.btnNo} onClick={hide} type="button">
           No
         </button>
-        <button className={classes.btnYes} onClick={handleFetchDeletArticle}>
+        <button className={classes.btnYes} onClick={handleFetchDeletArticle} type="button">
           Yes
         </button>
       </div>
     </div>
   );
   return (
-    <Popover
-      content={content}
-      trigger="click"
-      open={open}
-      onOpenChange={handleOpenChange}
-    >
+    <Popover content={content} trigger="click" open={open} onOpenChange={handleOpenChange}>
       <Button className={classes.btnDelete}>Delete</Button>
     </Popover>
   );

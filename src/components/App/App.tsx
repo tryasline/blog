@@ -1,32 +1,29 @@
-import { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 
-import WrappedArticleItemList from "../Articles/ContainerArtickeItem";
-import Layout from "../Layout/Layout";
-import CreatingAccount from "../CreatingAccount/CreatingAccount";
-import SignInPage from "../SignIn/SignIn";
-import Profile from "../Profile/Profile";
-import CreatingArticle from "../CreatingArticle/CreatingArticle";
-import UpdateArticle from "../UpdateArticle/UpdateArticle";
+import WrappedArticleItemList from '../Articles/ContainerArtickeItem';
+import Layout from '../Layout/Layout';
+import CreatingAccount from '../CreatingAccount/CreatingAccount';
+import SignInPage from '../SignIn/SignIn';
+import Profile from '../Profile/Profile';
+import CreatingArticle from '../CreatingArticle/CreatingArticle';
+import UpdateArticle from '../UpdateArticle/UpdateArticle';
+import { useAppDispatch, useAppSelector } from '../../hook/redux-hook';
+import { fetchArticle } from '../../store/reducer/article/action-creator';
+import { fetchAuth } from '../../store/reducer/user/action-creator';
+import { GetCookie } from '../../hook/Cookies';
+import WrappedOneArticl from '../Articles/ContainerOneArticke';
 
-import { useAppDispatch, useAppSelector } from "../../hook/redux-hook";
-import { fetchArticle } from "../../store/reducer/article/action-creator";
-import { fetchAuth } from "../../store/reducer/user/action-creator";
-import { GetCookie } from "../../hook/Cookies";
-import WrappedOneArticl from "../Articles/ContainerOneArticke";
-
-const App = () => {
+function App() {
   const disptach = useAppDispatch();
-  const { article, articlesCount, error, isLoading, oneArticle } =
-    useAppSelector((state) => state.articleReducer);
+  const { article, articlesCount, error, isLoading, oneArticle } = useAppSelector((state) => state.articleReducer);
   const { isAuth } = useAppSelector((state) => state.userReducer);
-  debugger;
   useEffect(() => {
     disptach(fetchArticle());
   }, [disptach]);
 
   useEffect(() => {
-    if (GetCookie("userToken")) {
+    if (GetCookie('userToken')) {
       disptach(fetchAuth());
     }
   }, [disptach]);
@@ -47,26 +44,17 @@ const App = () => {
         />
         <Route
           path="/articles/:slug"
-          element={
-            <WrappedOneArticl
-              error={error}
-              oneArticle={oneArticle}
-              isLoading={isLoading}
-            />
-          }
+          element={<WrappedOneArticl error={error} oneArticle={oneArticle} isLoading={isLoading} />}
         />
         <Route path="/sign-up" element={<CreatingAccount />} />
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/creat-article" element={<CreatingArticle />} />
-        <Route
-          path="/articles/:slug/edit"
-          element={<UpdateArticle oneArticle={oneArticle} />}
-        />
+        <Route path="/articles/:slug/edit" element={<UpdateArticle oneArticle={oneArticle} />} />
         <Route path="#" element={<div>Not found</div>} />
       </Route>
     </Routes>
   );
-};
+}
 
 export default App;

@@ -1,10 +1,11 @@
-import { FC, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hook/redux-hook";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { FC, useEffect } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
-import classes from "./SignIn.module.scss";
-import { fetchAuth } from "../../store/reducer/user/action-creator";
+import { useAppDispatch, useAppSelector } from '../../hook/redux-hook';
+import { fetchAuth } from '../../store/reducer/user/action-creator';
+
+import classes from './SignIn.module.scss';
 
 interface SignInAccountForm {
   email: string;
@@ -20,16 +21,16 @@ const SignInPage: FC = () => {
     formState: { errors, isValid },
     handleSubmit,
   } = useForm<SignInAccountForm>({
-    mode: "onChange",
+    mode: 'onChange',
   });
   const onSubmit = (data: any) => {
-    localStorage.setItem("userData", JSON.stringify(data));
+    localStorage.setItem('userData', JSON.stringify(data));
     dispatch(fetchAuth(data));
   };
 
   useEffect(() => {
     if (isAuth) {
-      navigate("/");
+      navigate('/');
     }
   }, [isAuth, navigate]);
 
@@ -41,17 +42,15 @@ const SignInPage: FC = () => {
           <span>Email address</span>
           <input
             placeholder="Email address"
-            {...register("email", {
-              required: "Обязательное поле",
+            {...register('email', {
+              required: 'Обязательное поле',
               pattern: {
                 value: /([a-z\d]+)@([gmail-mail-yandex]+)\.([com-ru]+)/,
-                message: "Email должен начинаться с нижнего регистра",
+                message: 'Email должен начинаться с нижнего регистра',
               },
             })}
-          ></input>
-          <div className={classes.errorName}>
-            {errors?.email && <p>{errors.email.message || "Error"}</p>}
-          </div>
+          />
+          <div className={classes.errorName}>{errors?.email && <p>{errors.email.message || 'Error'}</p>}</div>
         </label>
 
         <label className={classes.inputWrap}>
@@ -59,37 +58,31 @@ const SignInPage: FC = () => {
           <input
             type="password"
             placeholder="Password"
-            {...register("password", {
-              required: "Обязательное поле",
+            {...register('password', {
+              required: 'Обязательное поле',
               minLength: {
                 value: 6,
-                message: "Минимальная длина пароля 6 символа",
+                message: 'Минимальная длина пароля 6 символа',
               },
               maxLength: {
                 value: 40,
-                message: "Максимальная длина пароля 40 символов",
+                message: 'Максимальная длина пароля 40 символов',
               },
             })}
-          ></input>
-          <div className={classes.errorName}>
-            {errors?.password && <p>{errors.password.message || "Error"}</p>}
-          </div>
+          />
+          <div className={classes.errorName}>{errors?.password && <p>{errors.password.message || 'Error'}</p>}</div>
         </label>
 
-        <button className={classes.buttonSubmit} disabled={!isValid}>
+        <button className={classes.buttonSubmit} disabled={!isValid} type="submit">
           Login
         </button>
 
         <div className={classes.redirectLogin}>
           <span>Don’t have an account?</span>
           <NavLink
-            to={"/sign-up"}
+            to="/sign-up"
             className={({ isActive, isPending }) =>
-              isPending
-                ? `${classes.pending}`
-                : isActive
-                ? `${classes.active}`
-                : ""
+              isPending ? `${classes.pending}` : isActive ? `${classes.active}` : ''
             }
           >
             <span>Sign Up.</span>

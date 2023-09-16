@@ -1,13 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import { Pagination } from 'antd';
 
-import { Pagination } from "antd";
+import { Article } from '../../types/article-type';
+import { useAppDispatch } from '../../hook/redux-hook';
+import { fetchArticlePage } from '../../store/reducer/article/action-creator';
 
-import { Article } from "../../types/article-type";
-import ArticleItem from "./ArtickeItem";
-import classes from "./ArtickeItem.module.scss";
-import { useAppDispatch } from "../../hook/redux-hook";
-
-import { fetchArticlePage } from "../../store/reducer/article/action-creator";
+import ArticleItem from './ArtickeItem';
+import classes from './ArtickeItem.module.scss';
 
 interface ArtickeItemProps {
   articles: Article[];
@@ -18,7 +17,7 @@ interface ArtickeItemProps {
   isAuth: boolean;
 }
 
-const WrappedArticleItemList = (props: ArtickeItemProps) => {
+function WrappedArticleItemList(props: ArtickeItemProps) {
   const { error, isLoading } = props;
 
   const [page, setPage] = useState(1);
@@ -46,15 +45,12 @@ const WrappedArticleItemList = (props: ArtickeItemProps) => {
           </div>
         ))}
         <div className={classes.paginationArticle}>
-          <Pagination
-            defaultCurrent={page}
-            total={countPage}
-            onChange={(page) => changePage(page)}
-          />
+          <Pagination defaultCurrent={page} total={countPage} onChange={(page) => changePage(page)} />
         </div>
       </>
     );
-  } else return <div>Hello</div>;
-};
+  }
+  return <div>Hello</div>;
+}
 
 export default WrappedArticleItemList;

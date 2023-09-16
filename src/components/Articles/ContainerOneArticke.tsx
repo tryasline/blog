@@ -1,10 +1,11 @@
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { useAppDispatch } from "../../hook/redux-hook";
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
-import OneArticleItem from "./oneArticle";
-import { Article } from "../../types/article-type";
-import { fetchOneArticle } from "../../store/reducer/article/action-creator";
+import { useAppDispatch } from '../../hook/redux-hook';
+import { Article } from '../../types/article-type';
+import { fetchOneArticle } from '../../store/reducer/article/action-creator';
+
+import OneArticleItem from './oneArticle';
 
 interface ArtickeItemProps {
   oneArticle: Article;
@@ -12,11 +13,7 @@ interface ArtickeItemProps {
   isLoading: boolean;
 }
 
-const WrappedOneArticl = ({
-  oneArticle,
-  error,
-  isLoading,
-}: ArtickeItemProps) => {
+function WrappedOneArticl({ oneArticle, error, isLoading }: ArtickeItemProps) {
   const dispatch = useAppDispatch();
   const { slug } = useParams();
 
@@ -26,9 +23,10 @@ const WrappedOneArticl = ({
 
   if (isLoading) return <h1>Идёт загрузка...</h1>;
   if (error) return <div>{error}</div>;
-  else if (oneArticle) {
+  if (oneArticle) {
     return <OneArticleItem oneArticle={oneArticle} />;
-  } else return <h1>Hello</h1>;
-};
+  }
+  return <h1>Hello</h1>;
+}
 
 export default WrappedOneArticl;

@@ -1,6 +1,6 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import ArticleRequest, { Article } from "../../../types/article-type";
+import ArticleRequest, { Article } from '../../../types/article-type';
 
 interface ArticleState {
   article: Article[];
@@ -14,30 +14,30 @@ interface ArticleState {
 const initialState: ArticleState = {
   article: [],
   oneArticle: {
-    slug: "",
-    title: "",
-    description: "",
-    body: "",
+    slug: '',
+    title: '',
+    description: '',
+    body: '',
     tagList: [],
-    createdAt: "",
-    updatedAt: "",
+    createdAt: '',
+    updatedAt: '',
     favorited: false,
     favoritesCount: 0,
     author: {
-      username: "",
-      bio: "",
-      image: "",
+      username: '',
+      bio: '',
+      image: '',
       following: false,
     },
   },
   articlesCount: 0,
   isLoading: false,
-  error: "",
+  error: '',
   isAuth: false,
 };
 
 export const articleSlice = createSlice({
-  name: "article",
+  name: 'article',
   initialState,
   reducers: {
     articleFetching(state) {
@@ -48,12 +48,12 @@ export const articleSlice = createSlice({
       state.isLoading = false;
       state.article = action.payload.articles;
       state.articlesCount = action.payload.articlesCount;
-      state.error = "";
+      state.error = '';
     },
     oneArticleFetchingSuccess(state, action: PayloadAction<Article>) {
       state.isLoading = false;
       state.oneArticle = action.payload;
-      state.error = "";
+      state.error = '';
     },
 
     articleFetchingError(state, action: PayloadAction<string>) {

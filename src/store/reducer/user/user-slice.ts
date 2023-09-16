@@ -1,18 +1,18 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { User } from "../../../types/user-types";
+import { User } from '../../../types/user-types';
 
 const initialState: User = {
-  username: "",
-  email: "",
-  token: "",
-  bio: "",
-  image: "",
+  username: '',
+  email: '',
+  token: '',
+  bio: '',
+  image: '',
   isAuth: false,
 };
 
 export const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
     signUp(state, action: PayloadAction<User>) {
@@ -24,11 +24,11 @@ export const userSlice = createSlice({
       state.isAuth = true;
     },
     logOut(state) {
-      state.username = "";
-      state.email = "";
-      state.token = "";
-      state.bio = "";
-      state.image = "";
+      state.username = '';
+      state.email = '';
+      state.token = '';
+      state.bio = '';
+      state.image = '';
       state.isAuth = false;
     },
   },
